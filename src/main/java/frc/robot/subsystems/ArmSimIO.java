@@ -52,6 +52,7 @@ public class ArmSimIO implements ArmIO {
     @Override
     public void periodic() {
         armSim.update(0.020);
+        
         boolean newGrav = SmartDashboard.getBoolean("arm/sim/gravity", false);
         if(newGrav != grav){
             setGravity(newGrav);

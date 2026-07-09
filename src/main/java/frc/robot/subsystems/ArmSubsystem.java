@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -18,8 +20,8 @@ import frc.robot.subsystems.ArmIO.ArmInput;
 
 public class ArmSubsystem extends SubsystemBase {
   final ArmIO io;
+  final ArmConstants constants;
   ArmInput currentInput = new ArmInput(Degrees.of(0),DegreesPerSecond.of(0));
-  ArmConstants constants;
   Mechanism2d mech2d;
   MechanismRoot2d  mechRoot;
   MechanismLigament2d armLigament;
@@ -28,6 +30,7 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem(ArmIO io, ArmConstants constants) {
     this.io = io;
+    this.constants = constants;
     mech2d = new Mechanism2d(1, 1);
     mechRoot = mech2d.getRoot("arm", 0.5, 0.5);
     armLigament = new MechanismLigament2d("Arm", 0.5, 0);
@@ -39,13 +42,16 @@ public class ArmSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command gotoPosition(Angle angle) {
+  public Command gotoPosition(Supplier<Angle> angle) {
     return run(
         () -> {
-          double err = angle.minus(currentInput.currentAngle()).in(Degrees);
+          double err = angle.get().minus(currentInput.currentAngle()).in(Degrees);
           double p = err * constants.kP.get();
           double d = 0;
           io.setPowerOut(p+d);
+          System.out.println();
+          System.out.println(p);
+          System.out.println(err);
         });
   }
 
@@ -61,12 +67,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // This method will be called once per scheduler run
     currentInput = io.getInput();
     io.periodic();
-    // This method will be called once per scheduler run
-    ArmInput input = io.getInput();
-    armLigament.setAngle(input.currentAngle().in(Degrees));
-    SmartDashboard.putNumber("arm/angle", input.currentAngle().in(Degrees));
 
     SmartDashboard.putData("Arm", mech2d);
   }
