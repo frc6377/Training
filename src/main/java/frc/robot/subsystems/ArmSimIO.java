@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmSimIO implements ArmIO {
     SingleJointedArmSim armSim;
-    ArmConstants defaultArm = new ArmConstants(1, Kilogram.of(5), 1);
+    ArmConstants defaultArm = new ArmConstants(1, Kilogram.of(1), 1);
     EventLoop loop;
     boolean grav = false;
 

@@ -71,6 +71,7 @@ public class ArmSubsystem extends SubsystemBase {
     currentInput = io.getInput();
     io.periodic();
 
+    armLigament.setAngle(currentInput.currentAngle().in(Degrees));
     SmartDashboard.putData("Arm", mech2d);
   }
 
