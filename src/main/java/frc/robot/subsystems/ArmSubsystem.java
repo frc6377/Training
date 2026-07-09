@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -17,7 +18,7 @@ import frc.robot.subsystems.ArmIO.ArmInput;
 
 public class ArmSubsystem extends SubsystemBase {
   final ArmIO io;
-  ArmInput currentInput;
+  ArmInput currentInput = new ArmInput(Degrees.of(0),DegreesPerSecond.of(0));
   ArmConstants constants;
   Mechanism2d mech2d;
   MechanismRoot2d  mechRoot;
@@ -60,6 +61,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    currentInput = io.getInput();
     io.periodic();
     // This method will be called once per scheduler run
     ArmInput input = io.getInput();
