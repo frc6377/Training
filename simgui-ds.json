@@ -1,4 +1,14 @@
 {
+  "Keyboard 0 Settings": {
+    "window": {
+      "visible": true
+    }
+  },
+  "System Joysticks": {
+    "window": {
+      "visible": false
+    }
+  },
   "keyboardJoysticks": [
     {
       "axisConfig": [
@@ -12,9 +22,9 @@
         },
         {
           "decKey": 69,
-          "decayRate": 0.0,
+          "decayRate": 0.0010000000474974513,
           "incKey": 82,
-          "keyRate": 0.009999999776482582
+          "keyRate": 0.0010000000474974513
         }
       ],
       "axisCount": 3,

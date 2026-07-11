@@ -13,7 +13,8 @@ public class RobotContainer {
         final CommandXboxController m_driverController = new CommandXboxController(0); // Assuming controller is on port 0
         m_swerveDrive.setDefaultCommand(
             new RunCommand(
-                () -> m_swerveDrive.drive(-m_driverController.getLeftX(), -m_driverController.getLeftY(), -m_driverController.getRightX()), // Replace with joystick inputs
+                () -> m_swerveDrive.drive(m_driverController.getLeftX(), m_driverController.getLeftY(),  -m_driverController.getRawAxis(2)), // spin in place using right stick X
+
                 m_swerveDrive
             )
         );
