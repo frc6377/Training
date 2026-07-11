@@ -17,3 +17,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 }
+
+public final class Constants{
+    public static class swerve
+}
