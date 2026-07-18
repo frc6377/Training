@@ -25,6 +25,13 @@ public class Robot extends TimedRobot {
     }
 
     @Override
+    public void autonomousexit() {
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
+    }
+
+    @Override
     public void robotPeriodic() {
         // Run the CommandScheduler for all robot modes
         CommandScheduler.getInstance().run();

@@ -1,5 +1,10 @@
 package frc.robot.subsystems;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 import frc.robot.Constants;
@@ -53,6 +59,37 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
   public SwerveDriveSubsystem() {
     SmartDashboard.putData("Field", m_field);
+    RobotConfig config = null;
+    try{
+      config = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+    }
+
+      AutoBuilder.configure(
+            this::getPose, // Robot pose supplier
+            this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            (speeds, feedforwards) -> drive(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, speeds.omegaRadiansPerSecond), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+            new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            ),
+            config, // The robot configuration
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
   }
 
   /**
@@ -102,7 +139,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     m_backRight.setDesiredState(
         new SwerveModule.SwerveModuleState(
             moduleStates[3].angle, moduleStates[3].speedMetersPerSecond));
-
+        
+  
   }
 
   @Override
@@ -188,7 +226,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   public Pose2d getPose() {
     return m_pose;
   }
+  public void resetPose(Pose2d pose) {
+    m_pose = pose;
+    m_heading = pose.getRotation();
+  }
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    // Return the current robot-relative speeds based on module states.
+    SwerveModuleState[] states = new SwerveModuleState[] {
+      new SwerveModuleState(m_frontLeft.getSpeedMetersPerSecond(), m_frontLeft.getAngle()),
+      new SwerveModuleState(m_frontRight.getSpeedMetersPerSecond(), m_frontRight.getAngle()),
+      new SwerveModuleState(m_backLeft.getSpeedMetersPerSecond(), m_backLeft.getAngle()),
+      new SwerveModuleState(m_backRight.getSpeedMetersPerSecond(), m_backRight.getAngle())
+    };
 
+    return m_kinematics.toChassisSpeeds(states);
+  }
   private static double clamp(double val, double min, double max) {
     return Math.max(min, Math.min(max, val));
   }
