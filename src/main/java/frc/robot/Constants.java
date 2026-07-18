@@ -4,8 +4,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
     public static class Swerve {
-        public static final double kTrackWidth = 0.5; // meters
-        public static final double kWheelBase = 0.5; // meters
+        public static final double kTrackWidth = 12.9; // meters
+        public static final double kWheelBase = 12.9; // meters
 
         // Module locations
         public static final Translation2d kFrontLeftLocation = new Translation2d(kWheelBase / 2, kTrackWidth / 2);
