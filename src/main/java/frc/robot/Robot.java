@@ -25,13 +25,16 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopPeriodic() {
-        // Run the CommandScheduler
+    public void robotPeriodic() {
+        // Run the CommandScheduler for all robot modes
         CommandScheduler.getInstance().run();
     }
+
 
     @Override
     public void simulationPeriodic() {
         // Add simulation-specific logic here
     }
-}
+
+  }
+
