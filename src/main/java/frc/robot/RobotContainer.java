@@ -46,7 +46,7 @@ public class RobotContainer {
     }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return autoChooser.getSelected().finallyDo(() -> m_swerveDrive.drive(0, 0, 0)); // Stop the robot after the command ends
   }
 
     
