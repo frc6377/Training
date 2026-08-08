@@ -98,6 +98,16 @@ public class SimMain {
         if(DriverStation.isTest()){
             setPosition(new Pose2d(8.27,4.05, new Rotation2d()));
         }
+
+        rightDriveLeadSimState.setRawRotorPosition(wheelDistanceToMotorRotations(driveTrainSim.getRightPositionMeters()));
+        leftDriveLeadSimState.setRawRotorPosition(wheelDistanceToMotorRotations(driveTrainSim.getLeftPositionMeters()));
+        
+        rightDriveLeadSimState.setRotorVelocity(wheelDistanceToMotorRotations(driveTrainSim.getRightVelocityMetersPerSecond()));
+        leftDriveLeadSimState.setRotorVelocity(wheelDistanceToMotorRotations(driveTrainSim.getLeftVelocityMetersPerSecond()));
+    }
+
+    private final double wheelDistanceToMotorRotations(double trackDistance ){
+        return (trackDistance * SimConfig.GEARING) / (2 * Math.PI * SimConfig.WHEEL_RADIUS.in(Meters));
     }
 
     public void setPosition(Pose2d pose){
@@ -108,6 +118,5 @@ public class SimMain {
     private void updateNtValues() {
         nextNTupdate = (long) (System.currentTimeMillis() + 1 / NTupdateFrequency.in(Hertz));
         robotPosePublisher.accept(driveTrainSim.getPose());
-        
     }
 }
