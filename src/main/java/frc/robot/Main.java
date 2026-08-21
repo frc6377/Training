@@ -5,7 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.sim.SimMain;
+import frc.sim.DefaultRobot;
+import frc.sim.SimulatedRobot;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all. Unless you know what
@@ -21,12 +22,6 @@ public final class Main {
    * <p>If you change your main robot class, change the parameter type.
    */
   public static void main(String... args) {
-    RobotBase.startRobot(() -> {
-      Robot rob = new Robot();
-      SimMain sim = new SimMain();
-      // Simulation should be ran at a frequency of 100hz
-      rob.addPeriodic(sim::periodic, SimMain.dt);
-      return rob;
-    });
+    RobotBase.startRobot(SimulatedRobot.createSimRobot(Robot::new, DefaultRobot.HENRY));
   }
 }
