@@ -99,6 +99,17 @@ public class SwerveDriveSubsystem extends SubsystemBase {
    * @param ySpeedMetersPerSecond left (+) m/s (robot-relative)
    * @param rotRadiansPerSecond CCW (+) rad/s
    */
+  /**
+   * Immediately stop all drivetrain motion.
+   * Resets slew rate limiters so subsequent drive commands start from zero.
+   */
+  public void stop() {
+    m_xLimiter.reset(0.0);
+    m_yLimiter.reset(0.0);
+    m_rotLimiter.reset(0.0);
+    drive(0, 0, 0);
+  }
+
   public void drive(double xSpeedMetersPerSecond, double ySpeedMetersPerSecond, double rotRadiansPerSecond) {
     // Clamp + slew for nicer sim.
     double vx = m_xLimiter.calculate(xSpeedMetersPerSecond);

@@ -25,6 +25,12 @@ public class Robot extends TimedRobot {
     }
 
     @Override
+    public void disabledInit() {
+        // Immediately stop the drivetrain when entering disabled mode
+        m_robotContainer.getSwerveDrive().stop();
+    }
+
+    @Override
     public void autonomousExit() {
         // Stop autonomous when leaving autonomous mode (e.g., when switching to teleop)
         if (m_autonomousCommand != null) {

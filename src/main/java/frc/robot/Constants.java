@@ -12,5 +12,6 @@ public final class Constants {
         public static final Translation2d kFrontRightLocation = new Translation2d(kWheelBase / 2, -kTrackWidth / 2);
         public static final Translation2d kBackLeftLocation = new Translation2d(-kWheelBase / 2, kTrackWidth / 2);
         public static final Translation2d kBackRightLocation = new Translation2d(-kWheelBase / 2, -kTrackWidth / 2);
+        
     }
 }
