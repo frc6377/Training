@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -12,12 +15,18 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-
+  TalonFX rightLead;
+  TalonFX leftLead;
+  XboxController driver;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  public Robot() {}
+  public Robot() {
+    rightLead = new TalonFX(1);
+    leftLead = new TalonFX(3);
+    driver = new XboxController(0);
+  }
 
   @Override
   public void robotPeriodic() {}
@@ -32,7 +41,14 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double forward = driver.getLeftY();
+    double turn = 0;
+    double left = forward;
+    double right = forward;
+    leftLead.set(left);
+    rightLead.set(right);
+  }
 
   @Override
   public void disabledInit() {}
