@@ -43,11 +43,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double forward = driver.getLeftY();
-    double turn = 0;
+    double turn = driver.getRightX();
     double left = forward;
     double right = forward;
-    leftLead.set(left);
-    rightLead.set(right);
+    leftLead.set(0.5 * (-left + turn));
+    rightLead.set(0.5 * (-right - turn));
   }
 
   @Override
