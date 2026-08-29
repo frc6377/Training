@@ -17,14 +17,14 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
  * the TimedRobot documentation. If you change the name of this class or the package after creating
  * this project, you must also update the Main.java file in the project.
  */
-public class Robot extends TimedRobot{
+public class Robot extends TimedRobot {
   private final XboxController driver;
   private final TalonFX rightMotorSystem;
   private final TalonFX leftMotorSystem;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
-*/
+   */
   public Robot() {
   driver = new XboxController(0);
   rightMotorSystem = new TalonFX(1);
@@ -39,11 +39,12 @@ double rightSpeed = forward + right;
 double leftSpeed = forward - right;
 rightMotorSystem.set(rightSpeed);
 leftMotorSystem.set(leftSpeed);
+
+
 if (forward == 0) {
-  right = right / 4;
+    right = right / 10;
 }
-
-
+//set 
 
 
     //Controller.
@@ -82,4 +83,4 @@ if (forward == 0) {
 
   @Override
   public void simulationPeriodic() {}
-
+}
