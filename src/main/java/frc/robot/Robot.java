@@ -44,7 +44,9 @@ leftMotorSystem.set(leftSpeed);
 if (forward == 0) {
     right = right / 10;
 }
-//set 
+
+
+// when button y is pressed right = 0
 
 
     //Controller.
