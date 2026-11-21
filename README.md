@@ -3,19 +3,6 @@
 This is a training resource made by the howdybots.
 Each branch is it's own project and lesson
 
-Current Lessons:
-- Basic depedency injection
-    - Single jointed arm control layer
-
-Planned Lessons:
-- Why dependecy injection is used
-    - Flywheel IO layer
-- Basics of Command Base
-    - writing the intake command for a pre-existing extendable intake system
-- Command composition
-    - sequencing intaking then shooting automatically
-    - then adding reliability with waiting
-
 # Refernce Material
 WPILIB (General Robot Stuff)
 - Docs - https://docs.wpilib.org/en/stable/index.html
