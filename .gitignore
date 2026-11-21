@@ -170,7 +170,7 @@ out/
 
 # Simulation GUI and other tools window save file
 networktables.json
-simgui.json
+simgui*.json
 *-window.json
 
 # Simulation data log directory
@@ -187,6 +187,3 @@ compile_commands.json
 
 ## HOWDY BOT ADDITIONS
 BuildConstants.java
-
-simgui-ds.json
-.vscode
